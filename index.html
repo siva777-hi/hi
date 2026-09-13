@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreHub | Swiggy Food • Meesho Fashion • Vintage & Modern BMW</title>
+    <style>
+        :root {
+            --bg-body: #0d1117;
+            --bg-surface: #161b22;
+            --bg-card: #21262d;
+            --border: #30363d;
+            --text-main: #f0f6fc;
+            --text-sub: #8b949e;
+            
+            /* Thematic Accents */
+            --swiggy-orange: #fc8019;
+            --meesho-pink: #f43397;
+            --bmw-blue: #0066b1;
+            --green: #238636;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 70px;
+        }
+
+        /* Top Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            background: linear-gradient(90deg, var(--swiggy-orange), var(--meesho-pink), var(--bmw-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            color: var(--text-sub);
+            text-decoration: none;
+            margin-left: 1.25rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* Hero */
+        .hero {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-sub);
+            font-size: 1.15rem;
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Category Selector Bar */
+        .category-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .cat-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .cat-btn:hover {
+            border-color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .cat-btn.active-food {
+            background: var(--swiggy-orange);
+            color: #fff;
+            border-color: var(--swiggy-orange);
+        }
+
+        .cat-btn.active-fashion {
+            background: var(--meesho-pink);
+            color: #fff;
+            border-color: var(--meesho-pink);
+        }
+
+        .cat-btn.active-bmw {
+            background: var(--bmw-blue);
+            color: #fff;
+            border-color: var(--bmw-blue);
+        }
+
+        /* Content Containers */
+        .hub-section {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 4rem;
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .hub-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-subtitle {
+            color: var(--text-sub);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* ================= 1. SWIGGY STYLE FOOD ================= */
+        .swiggy-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .swiggy-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .swiggy-img-wrap {
+            height: 170px;
+            background: #2d333b;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .swiggy-discount-tag {
+            position: absolute;
+            bottom: 8px;
+            left: 10px;
+            background: linear-gradient(135deg, #1b2838, #0f141c);
+            border-left: 3px solid var(--swiggy-orange);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .swiggy-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .swiggy-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .rating-badge {
+            background: #238636;
+            color: white;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .veg-icon {
+            display: inline-flex;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #238636;
+            align-items: center;
+            justify-content: center;
+            margin-right: 4px;
+        }
+        .veg-icon::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #238636;
+            border-radius: 50%;
+        }
+
+        .non-veg-icon {
+            display: inline-flex;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #da3633;
+            align-items: center;
+            justify-content: center;
+            margin-right: 4px;
+        }
+        .non-veg-icon::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #da3633;
+            border-radius: 50%;
+        }
+
+        .swiggy-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .swiggy-desc {
+            color: var(--text-sub);
+            font-size: 0.82rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .swiggy-action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--border);
+            padding-top: 0.75rem;
+        }
+
+        .swiggy-price {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .swiggy-add-btn {
+            background: #fff;
+            color: #1f883d;
+            border: 1px solid #1f883d;
+            font-weight: 800;
+            padding: 5px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.1s;
+        }
+
+        .swiggy-add-btn:active {
+            background: #e6f4ea;
+        }
+
+        /* ================= 2. MEESHO STYLE FASHION ================= */
+        .meesho-card {
+            background: var(--bg-surface);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        .meesho-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .meesho-img-wrap {
+            height: 220px;
+            background: #1c2128;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            position: relative;
+        }
+
+        .meesho-body {
+            padding: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .meesho-title {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .meesho-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .current-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+        }
+
+        .discount-off {
+            color: #3fb950;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .meesho-badges {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0;
+        }
+
+        .delivery-free {
+            background: #1f2937;
+            color: #e5e7eb;
+            font-size: 0.72rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .rating-pill {
+            background: #238636;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .size-chips {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .size-chip {
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            color: var(--text-sub);
+        }
+
+        /* ================= 3. BMW SHOWCASE (VINTAGE & MODERN) ================= */
+        .bmw-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .bmw-filter-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-sub);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .bmw-filter-btn.active {
+            background: var(--bmw-blue);
+            color: white;
+            border-color: var(--bmw-blue);
+        }
+
+        .bmw-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+        }
+
+        .bmw-card:hover {
+            border-color: var(--bmw-blue);
+            transform: translateY(-4px);
+        }
+
+        .bmw-img-wrap {
+            height: 180px;
+            background: linear-gradient(180deg, #1f293d, #161b22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            position: relative;
+        }
+
+        .era-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .era-tag.vintage {
+            background: #d29922;
+            color: #0d1117;
+        }
+
+        .era-tag.modern {
+            background: var(--bmw-blue);
+            color: #fff;
+        }
+
+        .bmw-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .bmw-year {
+            color: var(--bmw-blue);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .bmw-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .bmw-specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: var(--bg-body);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 0.5rem 0 1rem;
+            font-size: 0.78rem;
+        }
+
+        .spec-item span {
+            color: var(--text-sub);
+            display: block;
+        }
+
+        .spec-item strong {
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .bmw-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .bmw-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Floating Order Pill for Swiggy Cart */
+        .live-order-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #238636;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+            z-index: 1001;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav>
+            <a href="#" class="logo"><span>ExploreHub</span></a>
+            <div class="nav-links">
+                <a href="javascript:showSection('food')">Food</a>
+                <a href="javascript:showSection('fashion')">Fashion</a>
+                <a href="javascript:showSection('bmw')">BMW Garage</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO INTRO -->
+    <div class="hero">
+        <h1>Three Worlds.<br>One Dynamic Hub.</h1>
+        <p>Browse live order menus, trend-setting street fashion, and heritage BMW engineering records.</p>
+        
+        <!-- DYNAMIC EXPLORE SWITCHER -->
+        <div class="category-switcher">
+            <button class="cat-btn active-food" id="btn-food" onclick="showSection('food')">
+                🍔 Explore Swiggy Live
+            </button>
+            <button class="cat-btn" id="btn-fashion" onclick="showSection('fashion')">
+                👗 Explore Meesho Trends
+            </button>
+            <button class="cat-btn" id="btn-bmw" onclick="showSection('bmw')">
+                🚗 Explore BMW Classics & Modern
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= 1. SWIGGY FOOD VIEW ================= -->
+    <section id="food-section" class="hub-section active">
+        <div class="section-title">
+            <span>🍕 Restaurants with Real-Time Delivery</span>
+        </div>
+        <p class="section-subtitle">Live delivery tracking active • 25–30 mins avg delivery time</p>
+
+        <div class="grid">
+            <!-- Item 1 -->
+            <div class="swiggy-card">
+                <div class="swiggy-img-wrap">
+                    🍕
+                    <span class="swiggy-discount-tag">50% OFF UPTO ₹100</span>
+                </div>
+                <div class="swiggy-body">
+                    <div class="swiggy-meta">
+                        <span class="rating-badge">★ 4.4</span>
+                        <span>• 28 mins</span>
+                    </div>
+                    <h3 class="swiggy-title"><span class="veg-icon"></span>Paneer Tikka Stuffed Pizza</h3>
+                    <p class="swiggy-desc">Tandoori paneer, spiced onion, capsicum & liquid cheese core.</p>
+                    <div class="swiggy-action-row">
+                        <span class="swiggy-price">₹349</span>
+                        <button class="swiggy-add-btn" onclick="addToOrder('Paneer Tikka Pizza')">ADD +</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="swiggy-card">
+                <div class="swiggy-img-wrap">
+                    🍔
+                    <span class="swiggy-discount-tag">ITEMS AT ₹179</span>
+                </div>
+                <div class="swiggy-body">
+                    <div class="swiggy-meta">
+                        <span class="rating-badge">★ 4.2</span>
+                        <span>• 22 mins</span>
+                    </div>
+                    <h3 class="swiggy-title"><span class="non-veg-icon"></span>Crispy Smash Double Burger</h3>
+                    <p class="swiggy-desc">Smoked caramelized onions, sharp yellow cheddar & signature pepper sauce.</p>
+                    <div class="swiggy-action-row">
+                        <span class="swiggy-price">₹219</span>
+                        <button class="swiggy-add-btn" onclick="addToOrder('Crispy Smash Burger')">ADD +</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="swiggy-card">
+                <div class="swiggy-img-wrap">
+                    🍲
+                    <span class="swiggy-discount-tag">FREE DELIVERY</span>
+                </div>
+                <div class="swiggy-body">
+                    <div class="swiggy-meta">
+                        <span class="rating-badge">★ 4.6</span>
+                        <span>• 35 mins</span>
+                    </div>
+                    <h3 class="swiggy-title"><span class="non-veg-icon"></span>Dum Hyderabadi Biryani</h3>
+                    <p class="swiggy-desc">Slow-cooked fragrant long grain basmati rice, tender spiced meat, boiled egg.</p>
+                    <div class="swiggy-action-row">
+                        <span class="swiggy-price">₹380</span>
+                        <button class="swiggy-add-btn" onclick="addToOrder('Dum Biryani')">ADD +</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="swiggy-card">
+                <div class="swiggy-img-wrap">
+                    🍜
+                    <span class="swiggy-discount-tag">₹120 OFF ABOVE ₹299</span>
+                </div>
+                <div class="swiggy-body">
+                    <div class="swiggy-meta">
+                        <span class="rating-badge">★ 4.1</span>
+                        <span>• 19 mins</span>
+                    </div>
+                    <h3 class="swiggy-title"><span class="veg-icon"></span>Spicy Hakka Noodles Bowl</h3>
+                    <p class="swiggy-desc">Wok-tossed garlic noodles with fresh seasonal vegetables and spicy chili crunch.</p>
+                    <div class="swiggy-action-row">
+                        <span class="swiggy-price">₹189</span>
+                        <button class="swiggy-add-btn" onclick="addToOrder('Hakka Noodles')">ADD +</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 2. MEESHO FASHION VIEW ================= -->
+    <section id="fashion-section" class="hub-section">
+        <div class="section-title">
+            <span>🛍️ Meesho Fashion Mall</span>
+        </div>
+        <p class="section-subtitle">Lowest Prices • Free Delivery • Cash on Delivery Available</p>
+
+        <div class="grid">
+            <!-- Product 1 -->
+            <div class="meesho-card">
+                <div class="meesho-img-wrap">👕</div>
+                <div class="meesho-body">
+                    <p class="meesho-title">Men Boxy Oversized Streetwear Graphic Tee</p>
+                    <div class="meesho-price-row">
+                        <span class="current-price">₹289</span>
+                        <span class="original-price">₹899</span>
+                        <span class="discount-off">68% off</span>
+                    </div>
+                    <div class="meesho-badges">
+                        <span class="delivery-free">Free Delivery</span>
+                        <span class="rating-pill">★ 4.2</span>
+                    </div>
+                    <div class="size-chips">
+                        <span class="size-chip">M</span>
+                        <span class="size-chip">L</span>
+                        <span class="size-chip">XL</span>
+                        <span class="size-chip">XXL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="meesho-card">
+                <div class="meesho-img-wrap">👗</div>
+                <div class="meesho-body">
+                    <p class="meesho-title">Printed Rayon Anarkali Kurti with Dupatta</p>
+                    <div class="meesho-price-row">
+                        <span class="current-price">₹449</span>
+                        <span class="original-price">₹1,299</span>
+                        <span class="discount-off">65% off</span>
+                    </div>
+                    <div class="meesho-badges">
+                        <span class="delivery-free">Free Delivery</span>
+                        <span class="rating-pill">★ 4.4</span>
+                    </div>
+                    <div class="size-chips">
+                        <span class="size-chip">S</span>
+                        <span class="size-chip">M</span>
+                        <span class="size-chip">L</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="meesho-card">
+                <div class="meesho-img-wrap">👖</div>
+                <div class="meesho-body">
+                    <p class="meesho-title">Men Loose Fit Wide-Leg Denim Jeans</p>
+                    <div class="meesho-price-row">
+                        <span class="current-price">₹579</span>
+                        <span class="original-price">₹1,599</span>
+                        <span class="discount-off">63% off</span>
+                    </div>
+                    <div class="meesho-badges">
+                        <span class="delivery-free">Free Delivery</span>
+                        <span class="rating-pill">★ 3.9</span>
+                    </div>
+                    <div class="size-chips">
+                        <span class="size-chip">30</span>
+                        <span class="size-chip">32</span>
+                        <span class="size-chip">34</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="meesho-card">
+                <div class="meesho-img-wrap">👟</div>
+                <div class="meesho-body">
+                    <p class="meesho-title">Chunky Lightweight Running Sports Sneakers</p>
+                    <div class="meesho-price-row">
+                        <span class="current-price">₹399</span>
+                        <span class="original-price">₹999</span>
+                        <span class="discount-off">60% off</span>
+                    </div>
+                    <div class="meesho-badges">
+                        <span class="delivery-free">Free Delivery</span>
+                        <span class="rating-pill">★ 4.0</span>
+                    </div>
+                    <div class="size-chips">
+                        <span class="size-chip">IND-7</span>
+                        <span class="size-chip">IND-8</span>
+                        <span class="size-chip">IND-9</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 3. BMW GARAGE VIEW ================= -->
+    <section id="bmw-section" class="hub-section">
+        <div class="section-title">
+            <span>🏁 The BMW Heritage & Speed Vault</span>
+        </div>
+        <p class="section-subtitle">Comparing legendary vintage milestones with cutting-edge M-Division power</p>
+
+        <div class="bmw-filters">
+            <button class="bmw-filter-btn active" onclick="filterBmw('all')">All Models</button>
+            <button class="bmw-filter-btn" onclick="filterBmw('vintage')">Vintage Legends</button>
+            <button class="bmw-filter-btn" onclick="filterBmw('modern')">Modern Competition</button>
+        </div>
+
+        <div class="grid">
+            <!-- Vintage 1 -->
+            <div class="bmw-card" data-era="vintage">
+                <div class="bmw-img-wrap">
+                    🏎️
+                    <span class="era-tag vintage">Vintage Legend</span>
+                </div>
+                <div class="bmw-body">
+                    <span class="bmw-year">1973</span>
+                    <h3 class="bmw-name">BMW 2002 Turbo</h3>
+                    <div class="bmw-specs-grid">
+                        <div class="spec-item"><span>Engine</span><strong>2.0L Turbo I4</strong></div>
+                        <div class="spec-item"><span>Horsepower</span><strong>170 HP</strong></div>
+                        <div class="spec-item"><span>0-60 mph</span><strong>6.9s</strong></div>
+                        <div class="spec-item"><span>Significance</span><strong>1st Turbo Europe</strong></div>
+                    </div>
+                    <a href="https://www.bmw.com" target="_blank" class="bmw-btn">View Historical Spec</a>
+                </div>
+            </div>
+
+            <!-- Vintage 2 -->
+            <div class="bmw-card" data-era="vintage">
+                <div class="bmw-img-wrap">
+                    🏎️
+                    <span class="era-tag vintage">Vintage Legend</span>
+                </div>
+                <div class="bmw-body">
+                    <span class="bmw-year">1986</span>
+                    <h3 class="bmw-name">BMW M3 (E30)</h3>
+                    <div class="bmw-specs-grid">
+                        <div class="spec-item"><span>Engine</span><strong>2.3L S14 I4</strong></div>
+                        <div class="spec-item"><span>Horsepower</span><strong>200 HP</strong></div>
+                        <div class="spec-item"><span>0-60 mph</span><strong>6.5s</strong></div>
+                        <div class="spec-item"><span>Championships</span><strong>DTM Icon</strong></div>
+                    </div>
+                    <a href="https://www.bmw.com" target="_blank" class="bmw-btn">View Historical Spec</a>
+                </div>
+            </div>
+
+            <!-- Vintage 3 -->
+            <div class="bmw-card" data-era="vintage">
+                <div class="bmw-img-wrap">
+                    🏎️
+                    <span class="era-tag vintage">Vintage Legend</span>
+                </div>
+                <div class="bmw-body">
+                    <span class="bmw-year">1956</span>
+                    <h3 class="bmw-name">BMW 507 Roadster</h3>
+                    <div class="bmw-specs-grid">
+                        <div class="spec-item"><span>Engine</span><strong>3.2L V8</strong></div>
+                        <div class="spec-item"><span>Horsepower</span><strong>150 HP</strong></div>
+                        <div class="spec-item"><span>Production</span><strong>Only 252 Built</strong></div>
+                        <div class="spec-item"><span>Celebrity</span><strong>Elvis Presley's car</strong></div>
+                    </div>
+                    <a href="https://www.bmw.com" target="_blank" class="bmw-btn">View Historical Spec</a>
+                </div>
+            </div>
+
+            <!-- Modern 1 -->
+            <div class="bmw-card" data-era="modern">
+                <div class="bmw-img-wrap">
+                    ⚡
+                    <span class="era-tag modern">Modern Competition</span>
+                </div>
+                <div class="bmw-body">
+                    <span class="bmw-year">2026</span>
+                    <h3 class="bmw-name">BMW M4 Competition</h3>
+                    <div class="bmw-specs-grid">
+                        <div class="spec-item"><span>Engine</span><strong>3.0L Twin-Turbo I6</strong></div>
+                        <div class="spec-item"><span>Horsepower</span><strong>523 HP</strong></div>
+                        <div class="spec-item"><span>0-60 mph</span><strong>3.4s</strong></div>
+                        <div class="spec-item"><span>Drivetrain</span><strong>M xDrive AWD</strong></div>
+                    </div>
+                    <a href="https://www.bmw.com" target="_blank" class="bmw-btn">Configure Model</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING LIVE CART TO EMULATE SWIGGY -->
+    <div class="live-order-bar" id="cart-pill">
+        <span id="cart-count">1 Item added</span>
+        <span>•</span>
+        <span>VIEW CART ➔</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 ExploreHub Dynamic Experience • Live Swiggy Delivery API simulation • Meesho Style Retail • BMW Heritage</p>
+    </footer>
+
+    <!-- INTERACTION LOGIC -->
+    <script>
+        // Section Switching (Explore triggers)
+        function showSection(sectionKey) {
+            // Hide all sections
+            document.querySelectorAll('.hub-section').forEach(sec => sec.classList.remove('active'));
+            
+            // Remove active classes on buttons
+            document.getElementById('btn-food').className = 'cat-btn';
+            document.getElementById('btn-fashion').className = 'cat-btn';
+            document.getElementById('btn-bmw').className = 'cat-btn';
+
+            // Activate chosen section & button styling
+            if(sectionKey === 'food') {
+                document.getElementById('food-section').classList.add('active');
+                document.getElementById('btn-food').classList.add('active-food');
+            } else if(sectionKey === 'fashion') {
+                document.getElementById('fashion-section').classList.add('active');
+                document.getElementById('btn-fashion').classList.add('active-fashion');
+            } else if(sectionKey === 'bmw') {
+                document.getElementById('bmw-section').classList.add('active');
+                document.getElementById('btn-bmw').classList.add('active-bmw');
+            }
+        }
+
+        // Swiggy Add-to-cart simulation
+        let totalItems = 0;
+        function addToOrder(itemName) {
+            totalItems++;
+            const pill = document.getElementById('cart-pill');
+            const countText = document.getElementById('cart-count');
+            countText.textContent = `${totalItems} ${totalItems > 1 ? 'Items' : 'Item'} added (${itemName})`;
+            pill.style.display = 'flex';
+        }
+
+        // BMW Vintage vs Modern Filter
+        function filterBmw(filter) {
+            const cards = document.querySelectorAll('.bmw-card');
+            const btns = document.querySelectorAll('.bmw-filter-btn');
+            
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-era') === filter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
